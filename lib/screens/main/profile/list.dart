@@ -20,7 +20,7 @@ class _ListPostState extends State<ListPost> {
 
   @override
   Widget build(BuildContext context) {
-    List<PostModel> posts = Provider.of<List<PostModel>>(context)??[];
+    List<PostModel> posts = Provider.of<List<PostModel>>(context);
     if(widget.post!=null){
       posts.insert(0, widget.post!);
     }
