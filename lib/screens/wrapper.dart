@@ -4,6 +4,7 @@ import 'package:chatter/screens/add.dart';
 import 'package:chatter/screens/main/Home.dart';
 import 'package:chatter/screens/main/profile/edit.dart';
 import 'package:chatter/screens/main/profile/profile.dart';
+import 'package:chatter/screens/main/profile/replies.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -25,7 +26,8 @@ class Wrapper extends StatelessWidget {
         '/':(context) => Home(),
         '/add' :(context) => Add(),
         '/profile':(context) => Profile(),
-        '/edit_profile':(context) => EditProfile()
+        '/edit_profile':(context) => EditProfile(),
+        '/replies':(context) => Replies()
         
       },
     );

@@ -31,6 +31,18 @@ class UserService {
       .map(_userFromFirebaseSnapshot);
   }
 
+  Future<List<String>> getUsersFollowing(uid) async{
+      QuerySnapshot query = await FirebaseFirestore.instance
+      .collection("users")
+      .doc(uid)
+      .collection("following")
+      .get();
+
+      final users = query.docs.map((doc) => doc.id).toList();
+      return users; 
+
+  }
+
   Stream<List<UserModel>> queryByName(search){
       return FirebaseFirestore.instance
       .collection("users")
@@ -74,4 +86,50 @@ class UserService {
         .doc(FirebaseAuth.instance.currentUser?.uid)
         .update(data);
   }
+
+  Stream<bool> isFollowing(uid, otherId){
+      return FirebaseFirestore.instance
+      .collection("users")
+      .doc(uid)
+      .collection("following")
+      .doc(otherId)
+      .snapshots()
+      .map((snap){ return snap.exists; });
+  }
+
+  Future<void> follow(uid) async{
+     await FirebaseFirestore.instance
+      .collection("users")
+      .doc(FirebaseAuth.instance.currentUser?.uid)
+      .collection("following")
+      .doc(uid)
+      .set({});
+
+      await FirebaseFirestore.instance
+      .collection("users")
+      .doc(uid)
+      .collection("followers")
+      .doc(FirebaseAuth.instance.currentUser?.uid)
+      .set({});
+  }
+
+
+Future<void> unfollow(uid) async{
+     await FirebaseFirestore.instance
+      .collection("users")
+      .doc(FirebaseAuth.instance.currentUser?.uid)
+      .collection("following")
+      .doc(uid)
+      .delete();
+
+      await FirebaseFirestore.instance
+      .collection("users")
+      .doc(uid)
+      .collection("followers")
+      .doc(FirebaseAuth.instance.currentUser?.uid)
+      .delete();
+  }
+
+
+
 }
